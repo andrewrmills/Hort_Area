@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+ 
+<head>
+  <meta charset="utf-8">
+  <title>Crop Portfolio</title>
+ 
+  <link rel="stylesheet" href="styles.css">
+  <script nonce="undefined" src="https://cdn.zingchart.com/zingchart.min.js"></script>
+</head>
+ 
+<body class="zc-body">
+  ​<a id="hide" href="index.html">Back</a>
+  <div id="myChart" class="chart--container">
+  <script>
+    ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "b55b025e438fa8a98e32482b5f768ff5"];
+    
+    let data = [
+  //Region, Lat, Long, Grapes, Kiwifruit, Apples, Avo/Hops
+  ['Hawkes Bay', 173, -38.3, 76, 0, 248, 0],
+  ['Gisborne', 174.3, -38.1, 9, 0, 33, 0],
+  ['Bay of Plenty', 173, -37.8, 0, 64, 0, 0],
+  ['Northland', 170.2, -34.8, 0, 118, 0, 16, 67],
+  ['Tasman', 169, -40.1, 0, 0, 0, 154,]
+   //Region, Lat, Long, Grapes, Kiwifruit, Apples, Avo/Hops
+];
+
+let getNameById = function (sId) {
+  let sName = 'N/A';
+  for (let i = 0; i < data.length; i++) {
+    if (sId === data[i][6]) {
+      sName = data[i][0];
+    }
+  }
+  return sName;
+};
+
+let addPieGraphs = function () {
+  for (let i = 0; i < data.length; i++) {
+    let info = data[i];
+    let xy = zingchart.maps.getXY('mapnzl', [info[1], info[2]]);
+    let oGraph = {
+      type: 'pie',
+      backgroundColor: 'none',
+      height: (info[3]+info[4]+info[5]+info[6])/3,
+      // width: '160px',
+      x: xy[0],
+      y: xy[1],
+      // title: {
+      //   text: info[0],
+      //   fontSize: '10px',
+      //   fontWeight: 'bold',
+      //   offsetY: info[7]/2,
+      // },
+      plot: {
+        tooltip: {
+          padding: '10px',
+          fontSize: '13px',
+          fontWeight: 'bold',
+          text: '%node-valueha in %plot-text',
+        },
+        valueBox: {
+          visible: false,
+        },
+        alpha: 0.75,
+        borderWidth: '0px',
+        detach: false,
+      },
+      plotarea: {
+        margin: '2px',
+      },
+      series: [
+        {
+          text: 'Apples',
+          values: [info[5]],
+          backgroundColor: '#d2232a',
+        },
+        {
+          text: 'Kiwifruit',
+          values: [info[4]],
+          backgroundColor: '#ffd700',
+        },
+        {
+          text: 'Grapes',
+          values: [info[3]],
+          backgroundColor: '#a020f0',
+        },
+        {
+          text: 'Avocado/Hops',
+          values: [info[6]],
+          backgroundColor: '#228c22',
+        },
+      ],
+    };
+    zingchart.exec('myChart', 'addgraph', {
+      data: oGraph,
+      update: false,
+    });
+  }
+  zingchart.exec('myChart', 'update');
+};
+
+var getMapData = function (sId) {
+  let oGraphMainMap = {
+    type: 'null',
+    id: 'gmap',
+    backgroundColor: 'none',
+    height: '600px',
+    width: '800px',
+    x: '0px',
+    y: '0px',
+    title: {
+      text: 'Craigmore Horticulture – Existing Properties',
+      align: 'left',
+      fontSize: '15px',
+      paddingLeft: '20px',
+    },
+    shapes: [
+      {
+        type: 'zingchart.maps',
+        options: {
+          height: '580px',
+          id: 'mapnzl',
+          name: 'nzl',
+          panning: false,
+          scale: true,
+          scrolling: false,
+          style: {
+            backgroundColor: '#f9f9f9',
+            borderColor: '#666',
+            controls: {
+              visible: false,
+            },
+            hoverState: {
+              visible: false,
+            },
+            items: {},
+            label: {
+              visible: false,
+            },
+          },
+          width: '480px',
+          x: '0px',
+          y: '20px',
+          zooming: false,
+        },
+      },
+    ],
+  };
+  oGraphMainMap.shapes[0].options.style.items[sId] = {
+    backgroundColor: '#eeeeee #c2edc3',
+  };
+  return oGraphMainMap;
+};
+
+let oGraphLegend = {
+  type: 'pie',
+  id: 'pielegend',
+  title: {
+    text:'Hectares by crop type and region',
+    fontSize: '10px',
+    paddingTop: '70px',},
+  backgroundColor: 'none',
+  height: '60px',
+  width: '300px',
+  x: '280px',
+  y: '500px',
+  plotarea: {
+    margin: '2px',
+  },
+  plot: {
+    tooltip: {
+      visible: false,
+    },
+    valueBox: {
+      text: '%plot-text',
+      align: 'left',
+      alpha: 0.6,
+      borderWidth: '0px',
+      color: '#333',
+      connector: {
+        visible: false,
+      },
+      flat: true,
+      fontSize: '10px',
+      fontWeight: 'bold',
+      maxTrackers: 0,
+      offsetR: -25,
+      placement: 'out',
+    },
+  },
+  scale: {
+    sizeFactor: 0.8,
+  },
+  series: [
+    {
+      text: 'Apples',
+      values: [1],
+      backgroundColor: '#d2232a',
+    },
+    {
+      text: 'Kiwifruit',
+      values: [1],
+      backgroundColor: '#ffd700',
+    },
+    {
+      text: 'Grapes',
+      values: [1],
+      backgroundColor: '#a020f0',
+    },
+    {
+      text: 'Avocado/Hops',
+      values: [1],
+      backgroundColor: '#228c22',
+    },
+  ],
+};
+
+let chartConfig = {
+  flat: true,
+  backgroundColor: '#f3f3f3 #e3e3e3',
+  borderColor: '#999',
+  borderWidth: '1px',
+  graphset: [
+    getMapData(data[0][6]),
+    oGraphLegend,
+  ],
+};
+
+let bInit = true;
+zingchart.bind('myChart', 'load', function () {
+  if (bInit) {
+    bInit = false;
+    addPieGraphs();
+  }
+});
+
+zingchart.DEV.MAPSONBOTTOM = 1;
+// renders chart
+zingchart.loadModules('maps, maps-nzl', function (e) {
+  zingchart.render({
+    id: 'myChart',
+    data: chartConfig,
+    height: '100%',
+    width: '100%',
+  });
+});
+
+  </script>
+</div>
+​<a href="23_24.html">Next</a>
+</body>
+</html>

@@ -1,0 +1,29 @@
+.zc-body {
+    background:#f9f9f9;
+    display: flex;
+    flex-direction: row; 
+    justify-content:space-around;
+}
+
+.chart--container {
+      height: 650px;
+      width: 650px;
+}
+    
+.zc-ref {
+      display: none;
+}
+.chart--container{
+    margin:auto;
+}
+.zc-body a {
+    text-decoration:none;
+    border:1px solid black;
+    padding:5px;
+    border-radius: 5px;
+    box-shadow: 2px 2px;
+    margin:auto;
+}
+#hide {
+    visibility: hidden;
+}
