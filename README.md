@@ -1,1 +1,1 @@
-A javascript bubble-pie chart displaying aaof crop type by region
+A javascript bubble-pie chart displaying area of crop type by region
